@@ -1,0 +1,62 @@
+@startuml
+title 外卖点餐与配送系统：订单取消与退款
+skinparam defaultFontName Microsoft YaHei
+autonumber
+
+boundary "Customer UI" as CustomerUI
+boundary "Merchant UI" as MerchantUI
+boundary "Admin UI" as AdminUI
+participant "Cancellation, Refund and Dispute" as Cancellation
+participant "Order" as Order
+participant "Inventory" as Inventory
+participant "Mock Payment" as Payment
+participant "Scheduled Jobs" as Scheduler
+participant "Data Access" as DataAccess
+database "Persistent Storage" as Storage
+participant "Notification" as Notification
+participant "Audit Log" as Audit
+
+CustomerUI -> Cancellation : 请求取消订单并提交原因
+Cancellation -> Order : 读取并核验最新订单状态
+Order --> Cancellation : 当前状态及付款结果
+
+alt 待付款或待商家接单：直接取消
+  Cancellation -> Order : 原子转换为已取消
+  Order -> DataAccess : 保存已取消状态
+  DataAccess -> Storage : 持久化订单状态
+  Cancellation -> Inventory : 按规则恢复库存且最多一次
+  opt 已成功付款
+    Cancellation -> Payment : 对原付款发起一次全额模拟退款
+    Payment -> DataAccess : 保存退款请求和进度
+    DataAccess -> Storage : 持久化退款记录
+  end
+else 制作中至待取餐：申请取消
+  Cancellation -> DataAccess : 保存处理中的取消申请
+  DataAccess -> Storage : 持久化申请和审批期限
+  Cancellation -> Notification : 通知商家处理申请
+  alt 商家在5分钟内处理
+    MerchantUI -> Cancellation : 批准或拒绝
+  else 商家5分钟未处理
+    Scheduler -> Cancellation : 审批期限到达
+    Cancellation -> Notification : 转管理员处理，申请仍为处理中
+    AdminUI -> Cancellation : 批准或拒绝申请
+  end
+  alt 批准
+    Cancellation -> Order : 核验最新状态并原子转换为已取消
+    Order -> DataAccess : 保存订单与已批准申请
+    DataAccess -> Storage : 同步持久化结果
+    Cancellation -> Payment : 已付款则发起一次全额退款
+    Payment -> DataAccess : 保存退款进度
+    DataAccess -> Storage : 持久化退款记录
+  else 拒绝
+    Cancellation -> DataAccess : 保存已拒绝申请，订单状态不变
+    DataAccess -> Storage : 持久化审批结果
+  end
+else 配送中或已送达
+  Cancellation --> CustomerUI : 不进入普通取消；说明异常处理或售后入口
+end
+
+Cancellation -> Notification : 通知顾客及相关履约人员
+Cancellation -> Audit : 记录申请、决定、订单及退款结果
+Cancellation --> CustomerUI : 返回订单、申请与退款各自的结果
+@enduml

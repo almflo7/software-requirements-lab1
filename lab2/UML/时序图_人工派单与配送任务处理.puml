@@ -1,0 +1,73 @@
+@startuml
+title 外卖点餐与配送系统：人工派单与配送任务处理
+skinparam defaultFontName Microsoft YaHei
+autonumber
+
+boundary "Admin UI" as AdminUI
+boundary "Courier UI" as CourierUI
+participant "Manual Delivery" as Delivery
+participant "Delivery Exception" as Exception
+participant "Identity and Access" as Auth
+participant "Order" as Order
+participant "Scheduled Jobs" as Scheduler
+participant "Cancellation, Refund and Dispute" as Cancellation
+participant "Data Access" as DataAccess
+database "Persistent Storage" as Storage
+participant "Notification" as Notification
+participant "Audit Log" as Audit
+
+AdminUI -> Delivery : 为待分配配送订单指定配送人员
+Delivery -> Auth : 核验账号有效且无其他进行中任务
+Auth --> Delivery : 可分配
+Delivery -> Order : 核验待分配配送且无处理中取消申请
+Order --> Delivery : 允许首次派单
+Delivery -> DataAccess : 保存任务、派单记录及当前配送人员
+DataAccess -> Storage : 持久化派单结果
+Delivery -> Order : 提交待配送员接单转换
+Delivery -> Notification : 通知当前配送人员
+Delivery -> Scheduler : 设置3分钟响应期限
+
+alt 配送人员接单
+  CourierUI -> Delivery : 接单
+  Delivery -> Order : 核验最新状态并提交待取餐转换
+else 配送人员拒接
+  CourierUI -> Delivery : 说明原因拒接
+  Delivery -> Order : 提交退回待分配配送
+  Delivery -> Notification : 提醒管理员重新派单
+else 3分钟未响应
+  Scheduler -> Delivery : 3分钟未响应时触发
+  Delivery -> Order : 提交退回待分配配送
+  Delivery -> Notification : 提醒管理员重新派单
+end
+
+opt 管理员改派
+  AdminUI -> Delivery : 指定新配送人员
+  Delivery -> Order : 核验当前状态和取消申请结果
+  alt 已取餐
+    Delivery -> AdminUI : 请求先确认餐品交接
+    AdminUI -> Delivery : 确认交接与接收人员
+  end
+  Delivery -> Auth : 核验新配送人员资格及任务占用
+  Delivery -> DataAccess : 保存改派记录并替换当前配送人员
+  DataAccess -> Storage : 持久化当前责任人
+  Delivery -> Notification : 通知新旧配送人员
+  Delivery -> Audit : 记录改派和交接
+end
+
+opt 当前配送人员报告无法交付
+  CourierUI -> Exception : 提交原因和联系记录
+  Exception -> Delivery : 核验本人当前任务
+  Exception -> Order : 提交配送异常转换
+  Exception -> DataAccess : 保存异常事实
+  DataAccess -> Storage : 持久化异常记录
+  Exception -> Notification : 通知管理员
+  AdminUI -> Exception : 决定继续配送、交接或终止
+  alt 继续配送或交接
+    Exception -> Order : 提交恢复配送中转换
+  else 确认终止
+    Exception -> Order : 提交已取消转换并停止履约
+    Exception -> Cancellation : 发起一次全额退款
+  end
+  Exception -> Audit : 记录管理员决定
+end
+@enduml

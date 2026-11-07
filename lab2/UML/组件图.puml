@@ -1,0 +1,96 @@
+@startuml
+
+top to bottom direction
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam nodesep 5
+skinparam ranksep 10
+skinparam Padding 2
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+
+package "外卖点餐与配送系统" as SystemBoundary {
+package "角色界面" as UIGroup {
+  component "Customer UI" as CustomerUI
+  component "Merchant UI" as MerchantUI
+  component "Courier UI" as RiderUI
+  component "Admin UI" as AdminUI
+  CustomerUI -[hidden]right-> MerchantUI
+  MerchantUI -[hidden]right-> RiderUI
+  RiderUI -[hidden]right-> AdminUI
+}
+
+package "业务模块" as BusinessGroup {
+package "账号与商品" as AccountCatalogGroup {
+  component "Identity and Access" as Auth
+  component "Store and Menu" as Catalog
+  component "Search" as Search
+  Auth -[hidden]right-> Catalog
+  Catalog -[hidden]right-> Search
+}
+
+package "订单交易" as OrderTradeGroup {
+  component "Cart" as Cart
+  component "Order" as Order
+  component "Inventory" as Inventory
+  component "Mock Payment" as Payment
+  component "Cancellation, Refund and Dispute" as Cancellation
+  Cart -[hidden]right-> Order
+  Order -[hidden]right-> Inventory
+  Inventory -[hidden]right-> Payment
+  Payment -[hidden]right-> Cancellation
+}
+
+package "履约配送" as FulfillmentGroup {
+  component "Merchant Fulfillment" as MerchantFulfillment
+  component "Manual Delivery" as Delivery
+  component "Delivery Exception" as DeliveryException
+  MerchantFulfillment -[hidden]right-> Delivery
+  Delivery -[hidden]right-> DeliveryException
+}
+
+package "公共支撑" as SupportGroup {
+  component "Notification" as Notification
+  component "Query and Reporting" as Reporting
+  component "Audit Log" as Audit
+  component "Scheduled Jobs" as Scheduler
+  Notification -[hidden]right-> Reporting
+  Reporting -[hidden]right-> Audit
+  Audit -[hidden]right-> Scheduler
+}
+}
+
+package "数据存储" as StorageGroup {
+  component "Data Access" as DataAccess
+  database "Persistent Storage" as Storage
+  DataAccess --> Storage : 读写
+}
+}
+
+' 两列三行的布局约束；隐藏连线不表示业务关系。
+UIGroup -[hidden]right-> AccountCatalogGroup
+UIGroup -[hidden]down-> OrderTradeGroup
+AccountCatalogGroup -[hidden]down-> FulfillmentGroup
+OrderTradeGroup -[hidden]right-> FulfillmentGroup
+OrderTradeGroup -[hidden]down-> SupportGroup
+FulfillmentGroup -[hidden]down-> StorageGroup
+SupportGroup -[hidden]right-> StorageGroup
+
+' 角色界面整体依赖业务模块；具体权限按实验一的角色规则确定。
+UIGroup ..> BusinessGroup : 按角色权限调用
+
+' 依赖箭头从调用方指向被调用方，避免分组之间互相直接调用。
+OrderTradeGroup ..> AccountCatalogGroup : 核验账号与商品
+FulfillmentGroup ..> AccountCatalogGroup : 核验履约权限
+FulfillmentGroup ..> OrderTradeGroup : 更新订单状态
+SupportGroup ..> AccountCatalogGroup : 查询账号与店铺
+SupportGroup ..> OrderTradeGroup : 查询订单、执行到期任务
+SupportGroup ..> FulfillmentGroup : 查询任务、执行超时处理
+
+' 争议由订单交易中的“取消退款与争议处理”协调；履约配送提供异常事实，
+' 公共支撑读取已保存的业务记录以通知、统计和留痕，不要求业务分组反向调用公共支撑。
+
+' 四个业务分组共用数据访问；具体读写范围在报告图外说明。
+BusinessGroup --> StorageGroup : 通过数据访问组件读写
+
+@enduml

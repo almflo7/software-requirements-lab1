@@ -1,0 +1,46 @@
+@startuml
+title 外卖点餐与配送系统：订单付款与支付结果
+skinparam defaultFontName Microsoft YaHei
+autonumber
+
+boundary "Customer UI" as CustomerUI
+participant "Order" as Order
+participant "Mock Payment" as Payment
+participant "Scheduled Jobs" as Scheduler
+participant "Inventory" as Inventory
+participant "Cancellation, Refund and Dispute" as Cancellation
+participant "Data Access" as DataAccess
+database "Persistent Storage" as Storage
+participant "Notification" as Notification
+participant "Audit Log" as Audit
+
+CustomerUI -> Order : 对待付款订单发起模拟支付
+Order -> Payment : 以唯一付款请求ID提交付款
+Payment -> DataAccess : 保存付款请求与处理状态
+DataAccess -> Storage : 持久化付款记录
+
+alt 付款结果未返回
+  Payment --> Order : 支付结果确认中
+  Order --> CustomerUI : 显示确认中，禁止重复发起扣款
+  Scheduler -> Order : 下单满10分钟仍未确认付款
+  Order -> DataAccess : 核验最新状态并持久化已取消
+  DataAccess -> Storage : 保存取消状态
+  Order -> Inventory : 按取消规则恢复一次库存
+  Payment -> Order : 超时取消后到达付款成功结果
+  Order -> DataAccess : 核验请求ID及已取消状态
+  DataAccess -> Storage : 记录迟到成功且只处理一次
+  Order -> Cancellation : 对原付款发起一次全额退款
+  Cancellation -> Payment : 模拟退款原付款账户
+  Order -> Notification : 通知取消及退款进度
+  Order -> Audit : 记录超时、迟到结果和退款
+else 期限内付款成功
+  Payment --> Order : 唯一成功结果
+  Order -> DataAccess : 核验当前状态并更新为待商家接单
+  DataAccess -> Storage : 保存状态及付款结果
+  Order -> Notification : 通知顾客和商家付款成功
+  Order --> CustomerUI : 显示待商家接单
+else 期限内付款失败
+  Payment --> Order : 失败原因
+  Order --> CustomerUI : 保持待付款，显示原因和重试入口
+end
+@enduml

@@ -1,0 +1,60 @@
+@startuml
+title 外卖点餐与配送系统：订单生命周期
+skinparam defaultFontName Microsoft YaHei
+
+state "交易与商家履约" as TradeStage {
+  state "待付款" as PendingPayment
+  state "待商家接单" as AwaitingMerchant
+  state "制作中" as Preparing
+}
+state "配送准备" as PreparationStage {
+  state "待分配配送" as AwaitingAssignment
+  state "待配送员接单" as AwaitingCourier
+  state "待取餐" as AwaitingPickup
+}
+state "配送与交付" as DeliveryStage {
+  state "配送中" as Delivering
+  state "配送异常" as DeliveryException
+  state "已送达" as Delivered
+  state ExceptionDecision <<choice>>
+}
+state "已完成" as Completed
+state "已取消" as Cancelled
+
+' 订单状态取值为三个分组内的业务状态以及已完成、已取消；分组和分支不作为取值。
+[*] --> PendingPayment
+PendingPayment --> AwaitingMerchant : 付款成功
+AwaitingMerchant --> Preparing : 商家接单
+Preparing --> AwaitingAssignment : 备餐完成
+AwaitingAssignment --> AwaitingCourier : 派单 [无待审取消申请]
+AwaitingCourier --> AwaitingPickup : 配送接单 [无其他进行中任务]
+AwaitingPickup --> Delivering : 确认取餐 [无待审取消申请]
+Delivering --> Delivered : 确认送达
+Delivered --> Completed : 确认完成
+Delivered --> Completed : after(24小时) [无未处理异常]
+
+PendingPayment --> Cancelled : 直接取消
+PendingPayment --> Cancelled : after(10分钟) [未付款]
+AwaitingMerchant --> Cancelled : 直接取消
+AwaitingMerchant --> Cancelled : 拒单
+AwaitingMerchant --> Cancelled : after(5分钟) [未接单]
+AwaitingMerchant --> Cancelled : 平台终止履约
+Preparing --> Cancelled : 取消决定生效
+AwaitingAssignment --> Cancelled : 取消决定生效
+AwaitingCourier --> Cancelled : 取消决定生效
+AwaitingPickup --> Cancelled : 取消决定生效
+
+AwaitingCourier --> AwaitingAssignment : 拒接
+AwaitingCourier --> AwaitingAssignment : after(3分钟) [未响应]
+AwaitingCourier --> AwaitingCourier : 改派
+AwaitingPickup --> AwaitingPickup : 改派
+Delivering --> Delivering : 改派 [已交接]
+Delivering --> DeliveryException : 报告异常
+Delivering --> Cancelled : 确认终止
+DeliveryException --> ExceptionDecision : 处置决定
+ExceptionDecision --> Delivering : [继续配送或交接]
+ExceptionDecision --> Cancelled : [终止]
+
+Completed --> [*]
+Cancelled --> [*]
+@enduml

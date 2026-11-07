@@ -1,0 +1,227 @@
+@startuml
+title 外卖点餐与配送系统：核心数据类图
+top to bottom direction
+skinparam defaultFontName Microsoft YaHei
+skinparam linetype ortho
+skinparam nodesep 25
+skinparam ranksep 35
+
+package "账号与权限" as IdentityGroup {
+  class Account {
+    -accountId: String
+    -role: String
+    -phone: String
+    -status: String
+    +checkAccess(): Boolean
+  }
+  class ApprovalRequest {
+    -requestId: String
+    -requestType: String
+    -submittedAt: DateTime
+    -reviewStatus: String
+    -processedAt: DateTime
+  }
+  class CustomerAddress {
+    -addressId: String
+    -recipient: String
+    -phone: String
+    -addressText: String
+    -deliveryArea: String
+  }
+}
+
+package "店铺与菜品" as StoreGroup {
+  class Store {
+    -storeId: String
+    -name: String
+    -description: String
+    -businessHours: String
+    -businessStatus: String
+  }
+  class MenuItem {
+    -itemId: String
+    -name: String
+    -category: String
+    -currentPrice: Decimal
+    -availableQuantity: Integer
+    -listingStatus: String
+  }
+}
+
+package "选餐与结算" as CartGroup {
+  class Cart {
+    -cartId: String
+    -foodAmount: Decimal
+    -deliveryFee: Decimal
+    -totalAmount: Decimal
+    +changeQuantity(): void
+    +recalculate(): void
+  }
+  class CartItem {
+    -quantity: Integer
+    -lastShownUnitPrice: Decimal
+  }
+  class CheckoutConfirmation {
+    -confirmationId: String
+    -confirmedAt: DateTime
+    -latestPriceConfirmed: Boolean
+  }
+}
+
+package "订单与快照" as OrderGroup {
+  class Order {
+    -orderId: String
+    -storeNameSnapshot: String
+    -status: String
+    -foodAmount: Decimal
+    -deliveryFee: Decimal
+    -totalAmount: Decimal
+    -placedAt: DateTime
+    -completedAt: DateTime
+    -customerNote: String
+    +transition(): void
+  }
+  class OrderItemSnapshot {
+    -itemName: String
+    -unitPrice: Decimal
+    -quantity: Integer
+    -subtotal: Decimal
+  }
+  class DeliveryInfoSnapshot {
+    -recipient: String
+    -addressText: String
+    -phone: String
+  }
+  class StockReservation {
+    -reservationId: String
+    -quantity: Integer
+    -restoreStatus: String
+  }
+}
+
+package "付款、取消与争议" as PaymentGroup {
+  class PaymentRecord {
+    -paymentId: String
+    -requestId: String
+    -result: String
+    -resultAt: DateTime
+  }
+  class CancellationRequest {
+    -requestId: String
+    -reason: String
+    -submittedAt: DateTime
+    -result: String
+    -processedAt: DateTime
+  }
+  class RefundRecord {
+    -refundId: String
+    -amount: Decimal
+    -initiatedAt: DateTime
+    -result: String
+    -failureReason: String
+  }
+  class DisputeCase {
+    -caseId: String
+    -reason: String
+    -decision: String
+    -processedAt: DateTime
+  }
+}
+
+package "履约配送" as FulfillmentGroup {
+  class DeliveryTask {
+    -taskId: String
+    -assignedAt: DateTime
+    -result: String
+  }
+  class AssignmentRecord {
+    -recordId: String
+    -adminAccountId: String
+    -previousCourierId: String
+    -newCourierId: String
+    -assignedAt: DateTime
+    -handoverResult: String
+  }
+  class DeliveryException {
+    -exceptionId: String
+    -reason: String
+    -contactRecord: String
+    -reportedAt: DateTime
+    -decisionAdminId: String
+    -adminDecision: String
+  }
+}
+
+package "公共支撑" as SupportGroup {
+  class NotificationRecord {
+    -notificationId: String
+    -content: String
+    -sendResult: String
+    -retryCount: Integer
+    -nextRetryAt: DateTime
+  }
+  class AuditLog {
+    -logId: String
+    -occurredAt: DateTime
+    -content: String
+    -result: String
+    -failureReason: String
+    -businessType: String
+    -businessId: String
+  }
+  class ScheduledJob {
+    -jobId: String
+    -jobType: String
+    -businessType: String
+    -businessId: String
+    -dueAt: DateTime
+    -result: String
+  }
+}
+
+' 以下连线只约束分组位置，不隐藏类或业务关系。
+' 店铺与选餐在上，账号、订单、付款在中，支撑与履约在下。
+' 
+
+
+Account "1" -- "0..*" ApprovalRequest : 申请人
+Account "0..1" -- "0..*" ApprovalRequest : 审核管理员
+Account "1" -- "0..*" CustomerAddress : 保存地址
+Account "1" -- "0..*" Store : 负责经营
+Store "1" *-- "0..*" MenuItem : 菜品目录
+Account "1" -- "0..*" Cart : 顾客
+Store "1" -- "0..*" Cart : 单店选择
+Cart "1" *-- "0..*" CartItem : 包含
+CartItem "0..*" --> "1" MenuItem : 当前菜品
+Cart "1" -- "0..*" CheckoutConfirmation : 结算确认
+CheckoutConfirmation "1" -- "0..1" Order : 生成
+Account "1" -- "0..*" Order : 顾客
+Store "1" -- "0..*" Order : 所属店铺
+Order "1" *-- "1..*" OrderItemSnapshot : 固化菜品
+Order "1" *-- "1" DeliveryInfoSnapshot : 固化收货信息
+CustomerAddress ..> DeliveryInfoSnapshot : 生成时取值
+Order "1" -- "1..*" StockReservation : 占用
+StockReservation "0..*" --> "1" MenuItem : 占用菜品
+Order "1" -- "0..*" PaymentRecord : 付款尝试
+Order "1" -- "0..*" CancellationRequest : 取消申请
+Order "1" -- "0..1" RefundRecord : 有效退款
+RefundRecord "0..1" --> "1" PaymentRecord : 原付款
+Order "1" -- "0..*" DisputeCase : 争议
+Account "1" -- "0..*" CancellationRequest : 申请人
+Account "0..1" -- "0..*" CancellationRequest : 处理人
+Account "1" -- "0..*" DisputeCase : 提出人
+Account "0..1" -- "0..*" DisputeCase : 决定管理员
+Order "1" -- "0..1" DeliveryTask : 配送任务
+DeliveryTask "1" *-- "0..*" AssignmentRecord : 派单历史
+DeliveryTask "1" -- "0..*" DeliveryException : 异常记录
+Account "0..1" -- "0..*" DeliveryTask : 当前配送人员
+DisputeCase --> DeliveryException : 引用事实
+Order "1" -- "0..*" NotificationRecord : 状态通知
+Account "1" -- "0..*" NotificationRecord : 接收人
+Account "0..1" -- "0..*" AuditLog : 操作者
+ScheduledJob "0..*" --> "0..1" Order
+ScheduledJob "0..*" --> "0..1" CancellationRequest
+ScheduledJob "0..*" --> "0..1" RefundRecord
+ScheduledJob "0..*" --> "0..1" NotificationRecord
+
+@enduml

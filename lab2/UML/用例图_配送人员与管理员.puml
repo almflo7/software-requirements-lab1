@@ -1,0 +1,61 @@
+@startuml
+title 外卖点餐与配送系统：配送人员与管理员用例
+left to right direction
+skinparam defaultFontName Microsoft YaHei
+
+actor "配送人员" as Courier
+actor "管理员" as Admin
+
+rectangle "外卖点餐与配送系统" {
+  package "资格与平台管理" {
+    usecase "申请配送资格" as UCApplyCourier
+    usecase "审核账号与店铺申请" as UCReviewIdentity
+    usecase "停用账号或店铺" as UCDisable
+    usecase "查看平台统计与关键日志" as UCPlatformReport
+  }
+
+  package "配送任务" {
+    usecase "查看本人任务" as UCOwnTask
+    usecase "响应派单" as UCRespond
+    usecase "接单" as UCAccept
+    usecase "说明原因拒接" as UCReject
+    usecase "确认取餐" as UCPickup
+    usecase "确认送达" as UCDeliver
+    usecase "查看历史任务" as UCTaskHistory
+    usecase "管理配送分配" as UCDispatch
+    usecase "首次派单" as UCInitialDispatch
+    usecase "改派" as UCReassign
+  }
+
+  package "异常与争议" {
+    usecase "报告配送异常" as UCReportException
+    usecase "处理配送异常" as UCHandleException
+    usecase "处理取消申请" as UCReviewCancellation
+    usecase "处理退款失败和争议" as UCHandleDispute
+    usecase "处理通知失败" as UCNotificationFailure
+  }
+
+}
+
+Courier --> UCApplyCourier
+Courier --> UCOwnTask
+Courier --> UCRespond
+Courier --> UCPickup
+Courier --> UCDeliver
+Courier --> UCReportException
+Courier --> UCTaskHistory
+
+Admin ---> UCReviewIdentity  #line:blue;line.bold
+Admin ---> UCDisable  #line:blue;line.bold
+Admin ---> UCPlatformReport  #line:blue;line.bold
+Admin ---> UCDispatch  #line:blue;line.bold
+Admin ---> UCHandleException  #line:blue;line.bold
+Admin ---> UCReviewCancellation  #line:blue;line.bold
+Admin ---> UCHandleDispute  #line:blue;line.bold
+Admin ---> UCNotificationFailure  #line:blue;line.bold
+
+UCAccept -|> UCRespond #line:green;line.bold
+UCReject -|> UCRespond #line:green;line.bold
+UCInitialDispatch -|> UCDispatch #line:green;line.bold
+UCReassign -|> UCDispatch #line:green;line.bold
+@enduml

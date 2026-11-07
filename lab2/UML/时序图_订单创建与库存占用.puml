@@ -1,0 +1,61 @@
+@startuml
+title 外卖点餐与配送系统：订单创建与库存占用
+skinparam defaultFontName Microsoft YaHei
+autonumber
+
+actor "顾客" as Customer
+boundary "Customer UI" as CustomerUI
+participant "Cart" as Cart
+participant "Order" as Order
+participant "Identity and Access" as Auth
+participant "Store and Menu" as Catalog
+participant "Inventory" as Inventory
+participant "Data Access" as DataAccess
+database "Persistent Storage" as Storage
+participant "Notification" as Notification
+participant "Audit Log" as Audit
+
+Customer -> CustomerUI : 确认单店购物车、最新价格与地址
+CustomerUI -> Cart : 获取菜品、数量与总价
+Cart --> CustomerUI : 结算内容
+CustomerUI -> Order : 提交结算确认ID及收货信息
+Order -> DataAccess : 查询结算确认ID对应订单
+DataAccess -> Storage : 读取订单
+Storage --> DataAccess : 查询结果
+DataAccess --> Order : 已有订单或空
+
+alt 相同结算确认已生成订单
+  Order --> CustomerUI : 返回原订单，不再次占用库存
+else 新的结算确认
+  Order -> Auth : 核验顾客、地址及配送范围
+  Auth --> Order : 核验结果
+  Order -> Catalog : 核验店铺营业、菜品状态和最新价格
+  Catalog --> Order : 最新商品和金额
+  alt 地址、营业状态或价格确认无效
+    Order --> CustomerUI : 说明原因并要求重新确认
+  else 核验通过
+    Order -> DataAccess : 开启下单事务
+    DataAccess -> Storage : 建立事务
+    Order -> Inventory : 原子占用所购菜品数量
+    Inventory -> DataAccess : 在同一事务中条件更新数量并记录占用
+    DataAccess -> Storage : 条件更新，暂不提交
+    Storage --> DataAccess : 成功或库存不足
+    DataAccess --> Inventory : 占用结果
+    alt 最后一份已被其他订单占用
+      Inventory --> Order : 库存不足，未扣减
+      Order -> DataAccess : 回滚下单事务
+      DataAccess -> Storage : 回滚
+      Order --> CustomerUI : 付款前提示库存不足
+    else 占用成功
+      Inventory --> Order : 每种菜品的占用记录
+      Order -> DataAccess : 在同一事务中保存订单、快照和结算确认ID
+      DataAccess -> Storage : 写入待付款订单并提交事务
+      Storage --> DataAccess : 保存成功
+      DataAccess --> Order : 订单ID
+      Order -> Notification : 通知顾客新订单
+      Order -> Audit : 记录下单与库存占用
+      Order --> CustomerUI : 返回待付款订单
+    end
+  end
+end
+@enduml

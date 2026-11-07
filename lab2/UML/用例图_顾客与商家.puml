@@ -1,0 +1,66 @@
+@startuml
+title 外卖点餐与配送系统：顾客与商家用例
+left to right direction
+skinparam defaultFontName Microsoft YaHei
+
+actor "顾客" as Customer
+actor "商家" as Merchant
+
+rectangle "外卖点餐与配送系统" {
+  package "账号与经营准备" {
+    usecase "注册与登录" as UCLogin
+    usecase "维护个人资料" as UCProfile
+    usecase "维护收货地址" as UCAddress
+    usecase "申请商家资格" as UCApplyMerchant
+    usecase "维护本店和菜品" as UCCatalog
+  }
+
+  package "选餐与订单履约" {
+    usecase "查询和筛选店铺菜品" as UCSearch
+    usecase "单店选餐与调整数量" as UCCart
+    usecase "确认结算信息" as UCConfirm
+    usecase "提交订单" as UCSubmitOrder
+    usecase "模拟付款" as UCPay
+    usecase "查询订单进度" as UCOrderQuery
+    usecase "响应新订单" as UCRespondOrder
+    usecase "接单" as UCAccept
+    usecase "说明原因拒单" as UCReject
+    usecase "完成备餐" as UCPrepare
+    usecase "查看本店订单与统计" as UCMerchantReport
+  }
+
+  package "取消与售后" {
+    usecase "取消订单" as UCCancel
+    usecase "直接取消" as UCDirectCancel
+    usecase "提交取消申请" as UCRequestCancel
+    usecase "处理取消申请" as UCReviewCancel
+    usecase "申请配送异常处理" as UCExceptionRequest
+    usecase "查看退款进度与结果" as UCRefundQuery
+  }
+}
+Customer --> UCLogin
+Customer --> UCProfile
+Customer --> UCAddress
+Customer -> UCSearch
+Customer -> UCCart
+Customer -> UCSubmitOrder
+Customer -> UCPay
+Customer -> UCOrderQuery
+Customer -> UCCancel
+Customer -> UCExceptionRequest
+Customer --> UCRefundQuery
+
+Merchant ---> UCLogin #line:blue;line.bold
+Merchant ---> UCApplyMerchant #line:blue;line.bold
+Merchant ---> UCCatalog #line:blue;line.bold
+Merchant ---> UCRespondOrder #line:blue;line.bold
+Merchant ---> UCPrepare #line:blue;line.bold
+Merchant ---> UCReviewCancel #line:blue;line.bold
+Merchant ---> UCMerchantReport #line:blue;line.bold
+
+UCSubmitOrder ..> UCConfirm : <<include>>
+UCAccept -|> UCRespondOrder
+UCReject -|> UCRespondOrder
+UCDirectCancel -|> UCCancel
+UCRequestCancel -|> UCCancel
+@enduml
