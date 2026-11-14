@@ -1,0 +1,28 @@
+test_access_and_statistics (test_access_reporting.AccessReportingTests.test_access_and_statistics) ... ok
+test_last_item_concurrent_competition (test_checkout.CheckoutTests.test_last_item_concurrent_competition) ... ok
+test_order_snapshot_and_repeat_submission (test_checkout.CheckoutTests.test_order_snapshot_and_repeat_submission) ... ok
+test_outside_delivery_area_is_rejected (test_checkout.CheckoutTests.test_outside_delivery_area_is_rejected) ... ok
+test_price_change_requires_new_confirmation (test_checkout.CheckoutTests.test_price_change_requires_new_confirmation) ... ok
+test_cancellation_pauses_pickup (test_delivery.DeliveryTests.test_cancellation_pauses_pickup) ... ok
+test_delivery_reassignment_and_completion (test_delivery.DeliveryTests.test_delivery_reassignment_and_completion) ... ok
+test_unreachable_customer_requires_two_contacts (test_delivery.DeliveryTests.test_unreachable_customer_requires_two_contacts) ... ok
+test_admin_view_is_logged (test_disputes.DisputeTests.test_admin_view_is_logged) ... ok
+test_disabled_customer_sees_existing_order (test_identity.IdentityTests.test_disabled_customer_sees_existing_order) ... ok
+test_registration_and_session (test_identity.IdentityTests.test_registration_and_session) ... ok
+test_accept_at_four_minutes_fifty_nine_seconds (test_merchant.MerchantTests.test_accept_at_four_minutes_fifty_nine_seconds) ... ok
+test_five_minute_timeout (test_merchant.MerchantTests.test_five_minute_timeout) ... ok
+test_rejection_requires_reason_and_refunds_once (test_merchant.MerchantTests.test_rejection_requires_reason_and_refunds_once) ... ok
+test_retries_at_one_three_five_minutes (test_notifications.NotificationTests.test_retries_at_one_three_five_minutes) ... ok
+test_failure_retry_and_duplicate_success (test_payment.PaymentTests.test_failure_retry_and_duplicate_success) ... ok
+test_success_at_deadline_is_late (test_payment.PaymentTests.test_success_at_deadline_is_late) ... ok
+test_timeout_and_late_success_refund (test_payment.PaymentTests.test_timeout_and_late_success_refund) ... ok
+test_disable_only_selected_order_and_read_refund (test_remaining.RemainingTests.test_disable_only_selected_order_and_read_refund) ... ok
+test_normal_notification_and_immutable_audit (test_remaining.RemainingTests.test_normal_notification_and_immutable_audit) ... ok
+test_store_cart_address_and_search (test_remaining.RemainingTests.test_store_cart_address_and_search) ... ok
+test_store_disable_and_refund_retry (test_remaining.RemainingTests.test_store_disable_and_refund_retry) ... ok
+test_all_directed_status_pairs (test_state_matrix.StateMatrixTests.test_all_directed_status_pairs) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 26.344s
+
+OK

@@ -1,0 +1,31 @@
+{
+  "users": 30,
+  "seconds": 600,
+  "think_seconds": 0.1,
+  "python": "3.12.6",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "database": "performance.sqlite3",
+  "network": "local",
+  "operations": {
+    "store_query": {
+      "count": 11533,
+      "p95_seconds": 0.253225399996154,
+      "success_rate": 1.0
+    },
+    "menu_query": {
+      "count": 11528,
+      "p95_seconds": 0.27389490001951344,
+      "success_rate": 1.0
+    },
+    "order_query": {
+      "count": 11522,
+      "p95_seconds": 0.25862989999586716,
+      "success_rate": 1.0
+    },
+    "submit_order": {
+      "count": 11518,
+      "p95_seconds": 1.5723689000005834,
+      "success_rate": 1.0
+    }
+  }
+}
