@@ -1,0 +1,241 @@
+************* Module app.access
+app\access.py:12:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\access.py:18:0: R0914: Too many local variables (18/15) (too-many-locals)
+************* Module app.after_sales
+app\after_sales.py:93:0: C0301: Line too long (101/100) (line-too-long)
+app\after_sales.py:131:0: C0301: Line too long (106/100) (line-too-long)
+app\after_sales.py:132:0: C0301: Line too long (108/100) (line-too-long)
+app\after_sales.py:133:0: C0301: Line too long (114/100) (line-too-long)
+app\after_sales.py:140:0: C0301: Line too long (104/100) (line-too-long)
+app\after_sales.py:142:0: C0301: Line too long (110/100) (line-too-long)
+app\after_sales.py:151:0: C0301: Line too long (101/100) (line-too-long)
+app\after_sales.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+app\after_sales.py:72:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\after_sales.py:121:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module app.audit
+app\audit.py:14:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\audit.py:14:0: R0913: Too many arguments (7/5) (too-many-arguments)
+app\audit.py:14:0: R0917: Too many positional arguments (7/5) (too-many-positional-arguments)
+app\audit.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\audit.py:26:0: R0913: Too many arguments (6/5) (too-many-arguments)
+app\audit.py:26:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+************* Module app.catalog
+app\catalog.py:130:0: C0301: Line too long (168/100) (line-too-long)
+app\catalog.py:132:0: C0301: Line too long (115/100) (line-too-long)
+app\catalog.py:195:0: C0301: Line too long (168/100) (line-too-long)
+app\catalog.py:230:0: C0301: Line too long (110/100) (line-too-long)
+app\catalog.py:16:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\catalog.py:36:0: R0913: Too many arguments (7/5) (too-many-arguments)
+app\catalog.py:36:0: R0917: Too many positional arguments (7/5) (too-many-positional-arguments)
+app\catalog.py:92:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\catalog.py:92:0: R0913: Too many arguments (6/5) (too-many-arguments)
+app\catalog.py:92:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+app\catalog.py:116:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\catalog.py:116:0: R0913: Too many arguments (9/5) (too-many-arguments)
+app\catalog.py:116:0: R0917: Too many positional arguments (9/5) (too-many-positional-arguments)
+app\catalog.py:130:11: R0916: Too many boolean expressions in if statement (6/5) (too-many-boolean-expressions)
+app\catalog.py:183:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\catalog.py:183:0: R0913: Too many arguments (7/5) (too-many-arguments)
+app\catalog.py:183:0: R0917: Too many positional arguments (7/5) (too-many-positional-arguments)
+app\catalog.py:195:11: R0916: Too many boolean expressions in if statement (6/5) (too-many-boolean-expressions)
+app\catalog.py:210:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module app.checkout
+app\checkout.py:45:0: C0301: Line too long (102/100) (line-too-long)
+app\checkout.py:110:0: C0301: Line too long (107/100) (line-too-long)
+app\checkout.py:155:0: C0301: Line too long (102/100) (line-too-long)
+app\checkout.py:169:0: C0301: Line too long (112/100) (line-too-long)
+app\checkout.py:79:0: R0913: Too many arguments (6/5) (too-many-arguments)
+app\checkout.py:79:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+************* Module app.cli
+app\cli.py:54:0: C0301: Line too long (101/100) (line-too-long)
+app\cli.py:351:0: C0301: Line too long (115/100) (line-too-long)
+app\cli.py:423:0: C0301: Line too long (104/100) (line-too-long)
+app\cli.py:84:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\cli.py:84:0: R0914: Too many local variables (44/15) (too-many-locals)
+app\cli.py:84:0: R0915: Too many statements (172/50) (too-many-statements)
+app\cli.py:262:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\cli.py:262:0: R0912: Too many branches (54/12) (too-many-branches)
+app\cli.py:262:0: R0915: Too many statements (145/50) (too-many-statements)
+************* Module app.db
+app\db.py:35:0: C0301: Line too long (105/100) (line-too-long)
+app\db.py:41:0: C0301: Line too long (117/100) (line-too-long)
+app\db.py:48:0: C0301: Line too long (102/100) (line-too-long)
+app\db.py:49:0: C0301: Line too long (102/100) (line-too-long)
+app\db.py:53:0: C0301: Line too long (113/100) (line-too-long)
+app\db.py:11:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+app\db.py:32:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\db.py:67:4: R1720: Unnecessary "else" after "raise", remove the "else" and de-indent the code inside it (no-else-raise)
+app\db.py:93:12: C0415: Import outside toplevel (app.notifications.dispatch_pending) (import-outside-toplevel)
+************* Module app.delivery
+app\delivery.py:16:0: C0301: Line too long (104/100) (line-too-long)
+app\delivery.py:41:0: C0301: Line too long (108/100) (line-too-long)
+app\delivery.py:105:0: C0301: Line too long (105/100) (line-too-long)
+app\delivery.py:118:0: C0301: Line too long (107/100) (line-too-long)
+app\delivery.py:125:0: C0301: Line too long (104/100) (line-too-long)
+app\delivery.py:139:0: C0301: Line too long (104/100) (line-too-long)
+app\delivery.py:166:0: C0301: Line too long (103/100) (line-too-long)
+app\delivery.py:235:0: C0301: Line too long (101/100) (line-too-long)
+app\delivery.py:259:0: C0301: Line too long (104/100) (line-too-long)
+app\delivery.py:260:0: C0301: Line too long (103/100) (line-too-long)
+app\delivery.py:280:0: C0301: Line too long (103/100) (line-too-long)
+app\delivery.py:290:0: C0301: Line too long (101/100) (line-too-long)
+app\delivery.py:294:0: C0301: Line too long (104/100) (line-too-long)
+app\delivery.py:28:0: R0913: Too many arguments (6/5) (too-many-arguments)
+app\delivery.py:28:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+app\delivery.py:94:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\delivery.py:94:0: R0913: Too many arguments (6/5) (too-many-arguments)
+app\delivery.py:94:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+app\delivery.py:180:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\delivery.py:199:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\delivery.py:199:0: R0913: Too many arguments (6/5) (too-many-arguments)
+app\delivery.py:199:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+app\delivery.py:225:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\delivery.py:266:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\delivery.py:289:12: C0415: Import outside toplevel (app.after_sales._refund_for_order) (import-outside-toplevel)
+************* Module app.disputes
+app\disputes.py:25:0: C0301: Line too long (114/100) (line-too-long)
+app\disputes.py:26:0: C0301: Line too long (117/100) (line-too-long)
+app\disputes.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\disputes.py:61:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module app.fulfillment
+app\fulfillment.py:68:0: C0301: Line too long (105/100) (line-too-long)
+app\fulfillment.py:112:0: C0301: Line too long (105/100) (line-too-long)
+app\fulfillment.py:18:0: C0115: Missing class docstring (missing-class-docstring)
+app\fulfillment.py:52:0: R0913: Too many arguments (6/5) (too-many-arguments)
+app\fulfillment.py:52:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+************* Module app.identity
+app\identity.py:127:0: C0301: Line too long (102/100) (line-too-long)
+app\identity.py:25:0: R0913: Too many arguments (6/5) (too-many-arguments)
+app\identity.py:25:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+app\identity.py:89:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\identity.py:130:16: C0415: Import outside toplevel (app.after_sales._refund_for_order) (import-outside-toplevel)
+app\identity.py:181:12: C0415: Import outside toplevel (app.after_sales._refund_for_order) (import-outside-toplevel)
+app\identity.py:189:0: R0913: Too many arguments (7/5) (too-many-arguments)
+app\identity.py:189:0: R0917: Too many positional arguments (7/5) (too-many-positional-arguments)
+app\identity.py:221:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\identity.py:6:0: W0611: Unused timezone imported from datetime (unused-import)
+************* Module app.models
+app\models.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+app\models.py:17:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module app.notifications
+app\notifications.py:49:0: C0116: Missing function or method docstring (missing-function-docstring)
+app\notifications.py:59:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module app.payment
+app\payment.py:17:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module app.reporting
+app\reporting.py:38:0: C0301: Line too long (102/100) (line-too-long)
+app\reporting.py:40:0: C0301: Line too long (107/100) (line-too-long)
+app\reporting.py:90:0: C0301: Line too long (102/100) (line-too-long)
+app\reporting.py:12:0: R0914: Too many local variables (16/15) (too-many-locals)
+************* Module app.support
+app\support.py:87:4: C0415: Import outside toplevel (app.notifications.dispatch_pending) (import-outside-toplevel)
+************* Module count_loc
+scripts\count_loc.py:6:0: C0116: Missing function or method docstring (missing-function-docstring)
+scripts\count_loc.py:13:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module load_test
+scripts\load_test.py:45:0: C0301: Line too long (113/100) (line-too-long)
+scripts\load_test.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
+scripts\load_test.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
+scripts\load_test.py:57:19: W0718: Catching too general exception Exception (broad-exception-caught)
+************* Module recovery_test
+scripts\recovery_test.py:16:0: C0116: Missing function or method docstring (missing-function-docstring)
+scripts\recovery_test.py:30:14: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+************* Module seed_data
+scripts\seed_data.py:11:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module test_access_reporting
+tests\test_access_reporting.py:21:0: C0301: Line too long (105/100) (line-too-long)
+tests\test_access_reporting.py:26:0: C0301: Line too long (103/100) (line-too-long)
+tests\test_access_reporting.py:29:0: C0301: Line too long (106/100) (line-too-long)
+tests\test_access_reporting.py:30:0: C0301: Line too long (103/100) (line-too-long)
+tests\test_access_reporting.py:36:0: C0301: Line too long (104/100) (line-too-long)
+tests\test_access_reporting.py:37:0: C0301: Line too long (103/100) (line-too-long)
+tests\test_access_reporting.py:39:0: C0301: Line too long (155/100) (line-too-long)
+tests\test_access_reporting.py:41:0: C0301: Line too long (196/100) (line-too-long)
+tests\test_access_reporting.py:45:0: C0301: Line too long (114/100) (line-too-long)
+tests\test_access_reporting.py:15:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_access_reporting.py:17:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+tests\test_access_reporting.py:24:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module test_checkout
+tests\test_checkout.py:58:0: C0301: Line too long (106/100) (line-too-long)
+tests\test_checkout.py:60:0: C0301: Line too long (107/100) (line-too-long)
+tests\test_checkout.py:61:0: C0301: Line too long (117/100) (line-too-long)
+tests\test_checkout.py:62:0: C0301: Line too long (101/100) (line-too-long)
+tests\test_checkout.py:111:0: C0301: Line too long (115/100) (line-too-long)
+tests\test_checkout.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_checkout.py:15:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+tests\test_checkout.py:49:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_checkout.py:53:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_checkout.py:70:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_checkout.py:86:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_checkout.py:92:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module test_delivery
+tests\test_delivery.py:19:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_delivery.py:21:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+tests\test_delivery.py:44:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_delivery.py:62:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_delivery.py:80:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module test_disputes
+tests\test_disputes.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_disputes.py:14:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_disputes.py:15:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+************* Module test_identity
+tests\test_identity.py:27:0: C0301: Line too long (104/100) (line-too-long)
+tests\test_identity.py:32:0: C0301: Line too long (105/100) (line-too-long)
+tests\test_identity.py:37:0: C0301: Line too long (109/100) (line-too-long)
+tests\test_identity.py:14:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_identity.py:16:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+tests\test_identity.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_identity.py:31:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_identity.py:9:0: W0611: Unused connect imported from app.db (unused-import)
+************* Module test_merchant
+tests\test_merchant.py:17:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_merchant.py:19:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+tests\test_merchant.py:36:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_merchant.py:53:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_merchant.py:78:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module test_notifications
+tests\test_notifications.py:14:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_notifications.py:15:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_notifications.py:16:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+************* Module test_payment
+tests\test_payment.py:15:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_payment.py:17:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+tests\test_payment.py:31:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_payment.py:61:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_payment.py:82:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module test_remaining
+tests\test_remaining.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_remaining.py:25:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+tests\test_remaining.py:35:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_remaining.py:57:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_remaining.py:74:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_remaining.py:92:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_remaining.py:10:0: W0611: Unused request_cancellation imported from app.after_sales (unused-import)
+************* Module test_state_matrix
+tests\test_state_matrix.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+tests\test_state_matrix.py:14:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests\test_state_matrix.py:15:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+tests\test_state_matrix.py:1:0: R0801: Similar lines in 2 files
+==test_delivery:[29:37]
+==test_merchant:[22:30]
+        confirmation = confirm_checkout(
+            self.path, "customer-demo", "cart-demo", "address-demo"
+        ).confirmation_id
+        self.order_id = create_order(self.path, "customer-demo", confirmation).order_id
+        with connect(self.path) as connection:
+            placed = connection.execute(
+                "SELECT placed_at FROM orders WHERE id = ?", (self.order_id,)
+            ).fetchone()[0] (duplicate-code)
+tests\test_state_matrix.py:1:0: R0801: Similar lines in 2 files
+==test_delivery:[71:76]
+==test_merchant:[84:89]
+        with connect(self.path) as connection:
+            self.assertEqual(connection.execute(
+                "SELECT status FROM orders WHERE id = ?", (self.order_id,)
+            ).fetchone()[0], "cancelled")
+            self.assertEqual(connection.execute( (duplicate-code)
+tests\test_state_matrix.py:1:0: R0401: Cyclic import (app.db -> app.notifications) (cyclic-import)
+
+-----------------------------------
+Your code has been rated at 9.07/10
+
