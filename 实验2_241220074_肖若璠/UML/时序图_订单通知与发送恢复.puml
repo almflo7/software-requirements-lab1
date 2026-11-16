@@ -1,0 +1,48 @@
+@startuml
+title 外卖点餐与配送系统：订单通知与发送恢复
+skinparam defaultFontName Microsoft YaHei
+autonumber
+
+participant "Order" as Order
+participant "Notification" as Notification
+participant "Scheduled Jobs" as Scheduler
+participant "Data Access" as DataAccess
+database "Persistent Storage" as Storage
+boundary "Admin UI" as AdminUI
+participant "Audit Log" as Audit
+
+Order -> Notification : 新订单或状态变化，提交接收者清单
+Notification -> DataAccess : 为每名接收者保存通知记录
+DataAccess -> Storage : 持久化通知和发送状态
+Notification -> Notification : 尝试在状态变化后10秒内送达
+
+alt 首次发送成功
+  Notification -> DataAccess : 保存送达结果
+  DataAccess -> Storage : 持久化成功状态
+else 首次发送失败
+  Notification -> Scheduler : 设置失败后第1、3、5分钟重试
+  Scheduler -> DataAccess : 保存未完成重试任务
+  DataAccess -> Storage : 持久化期限与任务状态
+  loop 第1、3、5分钟；仅在前次仍失败时继续
+    Scheduler -> Notification : 触发当前重试
+    Notification -> DataAccess : 保存本次结果和重试次数
+    DataAccess -> Storage : 持久化通知进度
+  end
+  alt 最后一次重试后仍失败
+    Notification -> DataAccess : 标记需管理员处理
+    DataAccess -> Storage : 保存异常状态
+    Notification -> AdminUI : 最后一次重试后1分钟内进入异常列表
+    Notification -> Audit : 记录失败及转人工结果
+  else 重试成功
+    Notification -> DataAccess : 标记已送达并结束任务
+    DataAccess -> Storage : 持久化完成结果
+  end
+end
+
+== 服务中断后恢复 ==
+Scheduler -> DataAccess : 读取未完成通知及到期任务
+DataAccess -> Storage : 查询持久化记录
+Storage --> DataAccess : 未完成任务及原请求标识
+DataAccess --> Scheduler : 待继续执行清单
+Scheduler -> Notification : 按原通知标识继续重试，不重复创建通知
+@enduml
